@@ -1,0 +1,349 @@
+/* ==========================================================================
+   神探夏洛特 · 设计系统
+   主色：午夜蓝 / 墨黑 / 旧纸米黄 / 暗红
+   字体：Special Elite (打字机复古) / Noto Serif SC (正文衬线) / Noto Sans SC
+   ========================================================================== */
+
+:root {
+  /* 主色板 */
+  --midnight-900: #060d1a;
+  --midnight-800: #0a1628;
+  --midnight-700: #0f1f3a;
+  --midnight-600: #1a2744;
+  --midnight-500: #253654;
+  --midnight-400: #3a527a;
+
+  --ink: #0d0d0d;
+  --ink-soft: #1a1a1a;
+
+  --paper: #e8dcc4;
+  --paper-light: #f0e6d2;
+  --paper-dark: #c9b896;
+  --paper-aged: #d9c9a8;
+
+  --blood: #8b1a1a;
+  --blood-light: #a02828;
+  --blood-dark: #5c0f0f;
+
+  --gold: #c9a96e;
+  --gold-light: #e0c896;
+  --gold-dim: #9a8050;
+
+  --text: #e8dcc4;
+  --text-dim: #a89880;
+  --text-faint: #6f6555;
+  --text-dark: #2a2418;
+
+  --border: rgba(201, 169, 110, 0.25);
+  --border-strong: rgba(201, 169, 110, 0.5);
+
+  --shadow-glow: 0 0 24px rgba(201, 169, 110, 0.12);
+  --shadow-blood: 0 0 30px rgba(139, 26, 26, 0.25);
+  --shadow-deep: 0 8px 32px rgba(0, 0, 0, 0.6);
+
+  /* 字体 */
+  --font-typewriter: 'Special Elite', 'Courier New', monospace;
+  --font-serif: 'Noto Serif SC', Georgia, serif;
+  --font-sans: 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+
+  /* 尺寸 */
+  --maxw: 1180px;
+  --radius: 4px;
+  --radius-lg: 8px;
+
+  /* 动效 */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--midnight-900);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 背景：午夜蓝渐变 + 纸张纹理噪点 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(26, 39, 68, 0.6) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 100%, rgba(139, 26, 26, 0.08) 0%, transparent 50%),
+    linear-gradient(180deg, var(--midnight-900) 0%, var(--midnight-800) 100%);
+  z-index: -2;
+  pointer-events: none;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+a {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--midnight-900);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--midnight-500);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--midnight-400);
+}
+
+/* ==========================================================================
+   通用组件样式
+   ========================================================================== */
+
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* 打字机标题 */
+.typewriter {
+  font-family: var(--font-typewriter);
+  letter-spacing: 0.05em;
+}
+
+/* 衬线大标题 */
+.serif {
+  font-family: var(--font-serif);
+}
+
+/* 旧纸卡片 */
+.paper-card {
+  background:
+    linear-gradient(135deg, var(--paper-light) 0%, var(--paper) 100%);
+  color: var(--text-dark);
+  border: 1px solid var(--paper-dark);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-deep);
+  position: relative;
+}
+
+.paper-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='0.06'/%3E%3C/svg%3E");
+  border-radius: var(--radius);
+  pointer-events: none;
+}
+
+/* 墨黑玻璃卡片 */
+.glass-card {
+  background: linear-gradient(135deg, rgba(15, 31, 58, 0.8) 0%, rgba(10, 22, 40, 0.9) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-deep);
+}
+
+/* 按钮 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 28px;
+  font-family: var(--font-typewriter);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--midnight-700);
+  color: var(--gold-light);
+  transition: all 0.25s var(--ease);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--midnight-600);
+  border-color: var(--gold);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-1px);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--blood) 0%, var(--blood-dark) 100%);
+  border-color: var(--blood-light);
+  color: var(--paper-light);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--blood-light) 0%, var(--blood) 100%);
+  box-shadow: var(--shadow-blood);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-dim);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  color: var(--gold);
+  border-color: var(--gold-dim);
+}
+
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 12px;
+}
+
+/* 标签 */
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  font-family: var(--font-typewriter);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+
+.tag-gold {
+  background: rgba(201, 169, 110, 0.15);
+  color: var(--gold);
+  border: 1px solid rgba(201, 169, 110, 0.3);
+}
+
+.tag-blood {
+  background: rgba(139, 26, 26, 0.2);
+  color: #d46666;
+  border: 1px solid rgba(139, 26, 26, 0.4);
+}
+
+.tag-dim {
+  background: rgba(100, 100, 100, 0.2);
+  color: var(--text-dim);
+  border: 1px solid rgba(100, 100, 100, 0.3);
+}
+
+/* 分割线 */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+  margin: 24px 0;
+}
+
+/* 聚光效果（用于关键区域） */
+.spotlight {
+  position: relative;
+}
+.spotlight::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(6, 13, 26, 0.7) 100%);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* 手写批注样式 */
+.annotation {
+  font-family: var(--font-typewriter);
+  color: var(--blood-light);
+  font-style: italic;
+  font-size: 13px;
+}
+
+/* 动画 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s var(--ease) both;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(201, 169, 110, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(201, 169, 110, 0.5); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.shake {
+  animation: shake 0.4s var(--ease);
+}
+
+/* 工具类 */
+.text-gold { color: var(--gold); }
+.text-blood { color: var(--blood-light); }
+.text-dim { color: var(--text-dim); }
+.text-faint { color: var(--text-faint); }
+.mt-1 { margin-top: 8px; }
+.mt-2 { margin-top: 16px; }
+.mt-3 { margin-top: 24px; }
+.mt-4 { margin-top: 32px; }
+.mb-1 { margin-bottom: 8px; }
+.mb-2 { margin-bottom: 16px; }
+.mb-3 { margin-bottom: 24px; }
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-2 { gap: 16px; }
+.gap-3 { gap: 24px; }
+.wrap { flex-wrap: wrap; }
